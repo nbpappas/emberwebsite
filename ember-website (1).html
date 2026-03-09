@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ember — Reigniting the Heart of Healthcare</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --navy: #1A1A2E;
+    --navy-mid: #16213E;
+    --orange: #FF7B00;
+    --orange-bright: #FF4500;
+    --gold: #FFD060;
+    --white: #FFFFFF;
+    --off-white: #F5F0E8;
+    --muted: #9A9AAA;
+    --card-bg: #20203A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: rgba(26, 26, 46, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 123, 0, 0.15);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+
+  .nav-flame {
+    width: 32px;
+    height: 46px;
+  }
+
+  .nav-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--orange); }
+
+  .nav-cta {
+    background: var(--orange);
+    color: var(--white) !important;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-weight: 500 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--orange-bright) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,123,0,0.18) 0%, rgba(255,69,0,0.08) 40%, transparent 70%);
+    pointer-events: none;
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-flame-wrap {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 32px;
+    animation: flame-rise 1s ease-out both;
+  }
+
+  @keyframes flame-rise {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-flame {
+    width: 90px;
+    height: 130px;
+    filter: drop-shadow(0 0 24px rgba(255, 123, 0, 0.7));
+  }
+
+  .hero-tag {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(255,123,0,0.1);
+    border: 1px solid rgba(255,123,0,0.3);
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+    animation: fade-up 0.8s 0.2s ease-out both;
+  }
+
+  .hero-title {
+    position: relative;
+    z-index: 2;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(100px, 18vw, 200px);
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -4px;
+    color: var(--white);
+    animation: fade-up 0.8s 0.3s ease-out both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+    font-size: clamp(22px, 3vw, 36px);
+    letter-spacing: 0px;
+    margin-top: 18px;
+    line-height: 1.3;
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 2;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(18px, 3vw, 26px);
+    font-weight: 700;
+    font-style: italic;
+    color: var(--orange);
+    margin-top: 20px;
+    letter-spacing: 0.02em;
+    animation: fade-up 0.8s 0.4s ease-out both;
+  }
+
+  .hero-desc {
+    position: relative;
+    z-index: 2;
+    max-width: 580px;
+    margin: 24px auto 0;
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    animation: fade-up 0.8s 0.5s ease-out both;
+  }
+
+  .hero-buttons {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 44px;
+    animation: fade-up 0.8s 0.6s ease-out both;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    box-shadow: 0 8px 32px rgba(255,123,0,0.35);
+  }
+
+  .btn-primary:hover {
+    background: var(--orange-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255,123,0,0.5);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+    animation: fade-up 1s 1s ease-out both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--orange), transparent);
+    animation: scroll-drop 2s 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scroll-drop {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--orange);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .section-body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+    max-width: 640px;
+    font-weight: 300;
+  }
+
+  /* ── DIVIDER ── */
+  .full-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,123,0,0.4), transparent);
+  }
+
+  /* ── MISSION ── */
+  #mission {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .mission-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mission-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255,123,0,0.15);
+  }
+
+  .mission-ring:nth-child(1) { width: 280px; height: 280px; animation: rotate 20s linear infinite; }
+  .mission-ring:nth-child(2) { width: 380px; height: 380px; animation: rotate 30s linear infinite reverse; border-color: rgba(255,208,96,0.1); }
+  .mission-ring:nth-child(3) { width: 460px; height: 460px; animation: rotate 40s linear infinite; border-color: rgba(255,123,0,0.06); }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .mission-ring::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: 50%;
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--orange);
+  }
+
+  .mission-center {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .mission-center svg {
+    filter: drop-shadow(0 0 30px rgba(255,123,0,0.6));
+  }
+
+  .mission-quote {
+    margin-top: 20px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── STATS ── */
+  #stats {
+    background: var(--card-bg);
+    max-width: 100%;
+    padding: 80px 60px;
+    border-top: 1px solid rgba(255,123,0,0.15);
+    border-bottom: 1px solid rgba(255,123,0,0.15);
+  }
+
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+    background: rgba(255,123,0,0.1);
+    border: 1px solid rgba(255,123,0,0.15);
+  }
+
+  .stat-card {
+    background: var(--card-bg);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--orange-bright), var(--gold));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .stat-card:hover::before { transform: scaleX(1); }
+  .stat-card:hover { background: #252540; }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+    letter-spacing: -1px;
+  }
+
+  .stat-label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .stat-source {
+    display: block;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,123,0,0.5);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── PROBLEM / SOLUTION ── */
+  #problem-solution {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 60px;
+  }
+
+  .ps-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .ps-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    align-items: start;
+  }
+
+  .ps-col {
+    padding: 48px;
+    border: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+  }
+
+  .ps-col.problem {
+    background: rgba(255,69,0,0.04);
+    border-color: rgba(255,69,0,0.15);
+  }
+
+  .ps-col.solution {
+    background: rgba(255,123,0,0.06);
+    border-color: rgba(255,123,0,0.2);
+  }
+
+  .ps-col-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .ps-col.problem .ps-col-label { color: #FF6B6B; }
+  .ps-col.solution .ps-col-label { color: var(--gold); }
+
+  .ps-col-label span {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+
+  .ps-col.problem .ps-col-label span { background: #FF6B6B; box-shadow: 0 0 8px #FF6B6B; }
+  .ps-col.solution .ps-col-label span { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+
+  .ps-col h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+
+  .ps-col.problem h3 { color: var(--white); }
+  .ps-col.solution h3 { color: var(--gold); }
+
+  .ps-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+  }
+
+  .ps-icon {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  .ps-col.problem .ps-icon {
+    background: rgba(255,107,107,0.12);
+    color: #FF6B6B;
+    border: 1px solid rgba(255,107,107,0.2);
+  }
+
+  .ps-col.solution .ps-icon {
+    background: rgba(255,208,96,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(255,208,96,0.2);
+  }
+
+  .ps-item-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+  }
+
+  .ps-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+  }
+
+  .ps-divider::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255,123,0,0.3), transparent);
+  }
+
+  .ps-arrow {
+    width: 40px; height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 24px rgba(255,123,0,0.4);
+    animation: arrow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes arrow-pulse {
+    0%, 100% { box-shadow: 0 0 24px rgba(255,123,0,0.4); }
+    50% { box-shadow: 0 0 40px rgba(255,123,0,0.7); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0F0F1E;
+    border-top: 1px solid rgba(255,123,0,0.15);
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--white);
+  }
+
+  .footer-tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .footer-right {
+    text-align: right;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .footer-right a {
+    color: var(--orange);
+    text-decoration: none;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="nav-flame" viewBox="60 40 80 115" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ng1" x1="0%" y1="100%" x2="30%" y2="0%">
+          <stop offset="0%" stop-color="#FF4500"/>
+          <stop offset="50%" stop-color="#FF7B00"/>
+          <stop offset="100%" stop-color="#FFD060"/>
+        </linearGradient>
+        <linearGradient id="ng2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFD060"/>
+          <stop offset="100%" stop-color="#FF6B00"/>
+        </linearGradient>
+      </defs>
+      <path d="M100 148 C94 130 80 110 84 82 C86 68 92 58 92 58 C88 72 96 88 98 105 Z" fill="url(#ng1)" opacity="0.8"/>
+      <path d="M100 148 C97 125 94 105 98 78 C100 60 104 46 104 46 C106 62 106 82 104 105 C102 120 101 135 100 148 Z" fill="url(#ng1)"/>
+      <path d="M100 148 C106 130 120 110 116 82 C114 68 108 58 108 58 C112 72 104 88 102 105 Z" fill="url(#ng1)" opacity="0.8"/>
+      <circle cx="94" cy="50" r="2" fill="#FFD060" opacity="0.8"/>
+      <circle cx="116" cy="62" r="1.5" fill="#FFB347" opacity="0.7"/>
+      <path d="M100 128 C100 128 84 116 84 104 C84 96 90 91 96 94 C98 95 100 98 100 98 C100 98 102 95 104 94 C110 91 116 96 116 104 C116 116 100 128 100 128Z" fill="url(#ng2)" opacity="0.95"/>
+      <polyline points="84,104 89,104 92,97 96,111 100,92 104,111 108,97 111,104 116,104" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="nav-wordmark">ember</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#mission-section">Mission</a></li>
+    <li><a href="#stats">The Cost</a></li>
+    <li><a href="#problem-solution">Problem & Solution</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-flame-wrap">
+    <svg class="hero-flame" viewBox="60 40 80 115" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hg1" x1="0%" y1="100%" x2="30%" y2="0%">
+          <stop offset="0%" stop-color="#FF4500"/>
+          <stop offset="50%" stop-color="#FF7B00"/>
+          <stop offset="100%" stop-color="#FFD060"/>
+        </linearGradient>
+        <linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFD060"/>
+          <stop offset="100%" stop-color="#FF6B00"/>
+        </linearGradient>
+        <filter id="hglow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M100 148 C94 130 80 110 84 82 C86 68 92 58 92 58 C88 72 96 88 98 105 Z" fill="url(#hg1)" opacity="0.8" filter="url(#hglow)"/>
+      <path d="M100 148 C97 125 94 105 98 78 C100 60 104 46 104 46 C106 62 106 82 104 105 C102 120 101 135 100 148 Z" fill="url(#hg1)" filter="url(#hglow)"/>
+      <path d="M100 148 C106 130 120 110 116 82 C114 68 108 58 108 58 C112 72 104 88 102 105 Z" fill="url(#hg1)" opacity="0.8" filter="url(#hglow)"/>
+      <circle cx="82" cy="68" r="2.5" fill="#FFD060" opacity="0.9"/>
+      <circle cx="94" cy="50" r="2" fill="#FFB347" opacity="0.8"/>
+      <circle cx="116" cy="60" r="2" fill="#FFD060" opacity="0.7"/>
+      <circle cx="122" cy="78" r="1.5" fill="#FFB347" opacity="0.6"/>
+      <path d="M100 128 C100 128 84 116 84 104 C84 96 90 91 96 94 C98 95 100 98 100 98 C100 98 102 95 104 94 C110 91 116 96 116 104 C116 116 100 128 100 128Z" fill="url(#hg2)" opacity="0.95" filter="url(#hglow)"/>
+      <polyline points="84,104 89,104 92,97 96,111 100,92 104,111 108,97 111,104 116,104" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95"/>
+    </svg>
+  </div>
+
+  <div class="hero-tag">Hospital Staff Recognition & Burnout Prevention</div>
+
+  <h1 class="hero-title">
+    ember
+    <em>Reigniting the Heart<br>of Healthcare</em>
+  </h1>
+
+  <p class="hero-sub">Defy the Dim.</p>
+
+  <p class="hero-desc">
+    When patients share their gratitude and outcomes, staff remember why they chose this work. Ember turns fleeting moments of care into lasting recognition — reducing burnout before it becomes resignation.
+  </p>
+
+  <div class="hero-buttons">
+    <a href="#mission-section" class="btn-primary">See Our Mission</a>
+    <a href="#problem-solution" class="btn-ghost">The Problem We Solve</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- MISSION -->
+<section id="mission-section">
+  <div id="mission">
+    <div class="mission-text">
+      <div class="section-label reveal">Mission</div>
+      <h2 class="section-title reveal reveal-delay-1">
+        Purpose is the<br><em>antidote to burnout</em>
+      </h2>
+      <p class="section-body reveal reveal-delay-2">
+        Ember empowers patients to write recognition letters and share their care outcomes directly with the nurses, physicians, and support staff who made a difference. By surfacing genuine patient gratitude in real time, Ember restores a sense of purpose to healthcare workers — the one thing no HR policy can manufacture.
+      </p>
+      <p class="section-body reveal reveal-delay-3" style="margin-top:20px;">
+        We partner with hospitals to deliver a HIPAA-compliant, mobile-first platform that integrates with Epic, Cerner, and Medtech — making recognition effortless for patients and meaningful for staff.
+      </p>
+    </div>
+
+    <div class="mission-visual reveal reveal-delay-2">
+      <div class="mission-ring"></div>
+      <div class="mission-ring"></div>
+      <div class="mission-ring"></div>
+      <div class="mission-center">
+        <svg width="120" height="172" viewBox="60 40 80 115" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="mg1" x1="0%" y1="100%" x2="30%" y2="0%">
+              <stop offset="0%" stop-color="#FF4500"/>
+              <stop offset="50%" stop-color="#FF7B00"/>
+              <stop offset="100%" stop-color="#FFD060"/>
+            </linearGradient>
+            <linearGradient id="mg2" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFD060"/>
+              <stop offset="100%" stop-color="#FF6B00"/>
+            </linearGradient>
+            <filter id="mglow">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <path d="M100 148 C94 130 80 110 84 82 C86 68 92 58 92 58 C88 72 96 88 98 105 Z" fill="url(#mg1)" opacity="0.8" filter="url(#mglow)"/>
+          <path d="M100 148 C97 125 94 105 98 78 C100 60 104 46 104 46 C106 62 106 82 104 105 C102 120 101 135 100 148 Z" fill="url(#mg1)" filter="url(#mglow)"/>
+          <path d="M100 148 C106 130 120 110 116 82 C114 68 108 58 108 58 C112 72 104 88 102 105 Z" fill="url(#mg1)" opacity="0.8" filter="url(#mglow)"/>
+          <circle cx="82" cy="68" r="2.5" fill="#FFD060" opacity="0.9"/>
+          <circle cx="94" cy="50" r="2" fill="#FFB347"/>
+          <circle cx="116" cy="60" r="2" fill="#FFD060" opacity="0.7"/>
+          <path d="M100 128 C100 128 84 116 84 104 C84 96 90 91 96 94 C98 95 100 98 100 98 C100 98 102 95 104 94 C110 91 116 96 116 104 C116 116 100 128 100 128Z" fill="url(#mg2)" filter="url(#mglow)"/>
+          <polyline points="84,104 89,104 92,97 96,111 100,92 104,111 108,97 111,104 116,104" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="mission-quote">"Defy the Dim"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-inner">
+    <div class="section-label reveal">The Cost of Burnout</div>
+    <h2 class="section-title reveal reveal-delay-1" style="max-width:600px;">
+      Staff burnout is a<br><em>billion-dollar crisis</em>
+    </h2>
+    <p class="section-body reveal reveal-delay-2">The numbers are staggering — and largely preventable. Hospitals are losing their best people not to competing offers, but to exhaustion and feeling unseen.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <span class="stat-number">$16B+</span>
+        <span class="stat-label">Annual cost of nurse turnover in the United States alone</span>
+        <span class="stat-source">NSI Nursing Solutions</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-1">
+        <span class="stat-number">$50K</span>
+        <span class="stat-label">Average cost to recruit and replace a single bedside nurse</span>
+        <span class="stat-source">JONA / NSI Report 2024</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <span class="stat-number">54%</span>
+        <span class="stat-label">Of nurses reporting moderate-to-severe burnout symptoms</span>
+        <span class="stat-source">American Nurses Foundation</span>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <span class="stat-number">$125B</span>
+        <span class="stat-label">Estimated annual economic cost of physician burnout in the US</span>
+        <span class="stat-source">Stanford Medicine / Shanafelt</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<!-- PROBLEM / SOLUTION -->
+<section id="problem-solution">
+  <div class="ps-header">
+    <div class="section-label reveal" style="justify-content:center;">The Case for Ember</div>
+    <h2 class="section-title reveal reveal-delay-1" style="text-align:center;">
+      We identified the gap.<br><em>We built the bridge.</em>
+    </h2>
+  </div>
+
+  <div class="ps-grid">
+    <!-- PROBLEM -->
+    <div class="ps-col problem reveal">
+      <div class="ps-col-label"><span></span>The Problem</div>
+      <h3>Healthcare workers are burning out in silence</h3>
+
+      <div class="ps-item">
+        <div class="ps-icon">✕</div>
+        <p class="ps-item-text">73% of healthcare workers feel chronically low-energy or emotionally depleted — yet rarely hear directly from the patients they helped</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✕</div>
+        <p class="ps-item-text">Existing wellness apps are generic, transactional, and not built for the specific emotional demands of clinical environments</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✕</div>
+        <p class="ps-item-text">HR teams lack real-time satisfaction data and can't intervene before burnout becomes resignation or absenteeism</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✕</div>
+        <p class="ps-item-text">Staff rarely receive direct patient gratitude — one of the most powerful intrinsic motivators in caregiving careers</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✕</div>
+        <p class="ps-item-text">Hospitals spend tens of thousands replacing experienced staff when the cost of retention is a fraction of turnover</p>
+      </div>
+    </div>
+
+    <!-- ARROW -->
+    <div class="ps-divider reveal">
+      <div class="ps-arrow">→</div>
+    </div>
+
+    <!-- SOLUTION -->
+    <div class="ps-col solution reveal reveal-delay-2">
+      <div class="ps-col-label"><span></span>Our Solution</div>
+      <h3>Ember closes the loop between patients and providers</h3>
+
+      <div class="ps-item">
+        <div class="ps-icon">✦</div>
+        <p class="ps-item-text">Patients write personalized recognition letters to their care team directly through Ember — delivered in real time to staff inboxes</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✦</div>
+        <p class="ps-item-text">Staff receive positive outcome updates from patients post-discharge, providing tangible evidence that their care made a lasting difference</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✦</div>
+        <p class="ps-item-text">Managers access an anonymous satisfaction dashboard with trend data and early burnout indicators for proactive intervention</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✦</div>
+        <p class="ps-item-text">HIPAA-compliant platform integrates natively with Epic, Cerner, and Medtech — zero workflow disruption for clinical staff</p>
+      </div>
+      <div class="ps-item">
+        <div class="ps-icon">✦</div>
+        <p class="ps-item-text">Subscription at $8/user/month — a 500-staff hospital pays less than the cost of replacing one nurse, with measurable ROI</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CONTACT / CTA -->
+<section id="contact" style="text-align:center; padding: 120px 60px;">
+  <div class="section-label reveal" style="justify-content:center;">Partner With Us</div>
+  <h2 class="section-title reveal reveal-delay-1" style="text-align:center; margin: 0 auto 20px;">
+    Ready to <em>reignite your team?</em>
+  </h2>
+  <p class="section-body reveal reveal-delay-2" style="margin: 0 auto 48px; text-align:center; max-width:500px;">
+    We're piloting with forward-thinking hospital systems in 2026. If your organization is serious about staff retention and wellbeing, let's talk.
+  </p>
+  <div class="reveal reveal-delay-3" style="display:flex; gap:16px; justify-content:center;">
+    <a href="mailto:hello@emberapp.co" class="btn-primary">hello@emberapp.co</a>
+    <a href="#" class="btn-ghost">Request a Demo</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <svg width="28" height="40" viewBox="60 40 80 115" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="fg1" x1="0%" y1="100%" x2="30%" y2="0%">
+          <stop offset="0%" stop-color="#FF4500"/>
+          <stop offset="100%" stop-color="#FFD060"/>
+        </linearGradient>
+        <linearGradient id="fg2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#FFD060"/>
+          <stop offset="100%" stop-color="#FF6B00"/>
+        </linearGradient>
+      </defs>
+      <path d="M100 148 C94 130 80 110 84 82 C86 68 92 58 92 58 C88 72 96 88 98 105 Z" fill="url(#fg1)" opacity="0.8"/>
+      <path d="M100 148 C97 125 94 105 98 78 C100 60 104 46 104 46 C106 62 106 82 104 105 C102 120 101 135 100 148 Z" fill="url(#fg1)"/>
+      <path d="M100 148 C106 130 120 110 116 82 C114 68 108 58 108 58 C112 72 104 88 102 105 Z" fill="url(#fg1)" opacity="0.8"/>
+      <path d="M100 128 C100 128 84 116 84 104 C84 96 90 91 96 94 C98 95 100 98 100 98 C100 98 102 95 104 94 C110 91 116 96 116 104 C116 116 100 128 100 128Z" fill="url(#fg2)"/>
+      <polyline points="84,104 89,104 92,97 96,111 100,92 104,111 108,97 111,104 116,104" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div>
+      <div class="footer-wordmark">ember</div>
+      <div class="footer-tagline">Defy the Dim</div>
+    </div>
+  </div>
+  <div class="footer-right">
+    <div>Hospital Staff Recognition & Burnout Prevention</div>
+    <div><a href="mailto:hello@emberapp.co">hello@emberapp.co</a> &nbsp;·&nbsp; www.emberapp.co</div>
+    <div style="margin-top:8px; font-size:11px; color: rgba(255,255,255,0.2);">© 2026 Ember Health Inc. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Animated stat counters
+  function animateCounter(el, target, suffix = '', prefix = '') {
+    const duration = 2000;
+    const start = performance.now();
+    const isDecimal = target % 1 !== 0;
+
+    function update(time) {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = isDecimal
+        ? (eased * target).toFixed(1)
+        : Math.round(eased * target);
+      el.textContent = prefix + current + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-number');
+        const targets = [16, 50, 54, 125];
+        const prefixes = ['$', '$', '', '$'];
+        const suffixes = ['B+', 'K', '%', 'B'];
+        nums.forEach((num, i) => {
+          animateCounter(num, targets[i], suffixes[i], prefixes[i]);
+        });
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsGrid = document.querySelector('.stats-grid');
+  if (statsGrid) statObserver.observe(statsGrid);
+</script>
+</body>
+</html>
